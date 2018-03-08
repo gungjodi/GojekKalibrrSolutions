@@ -18,3 +18,47 @@ The first line is the number of test cases T. Each test case will have two numbe
 Output:
 
 For each test case, output one line of the form “Case C:” (without the quotes), where C is the case number (starting from 1). On the following lines, output the factions that appear in the grid in alphabetical order if the faction controls at least one region and how many regions that letter controls. Factions that don’t control any regions should not be in the output. After this, print one last line of the form “contested K” where K is the number of regions that contain at least two distinct letters.
+
+//        pathRight(player);
+
+
+//        //go up from playerPos
+//        for(int x=player.getPosX();x>=0;x--)
+//        {
+//
+//            if(myboard[x][player.getPosY()]=='#')
+//            {
+//                break;
+//            }
+//            System.out.println(x+","+player.getPosY());
+//        }
+
+//        //go down from playerPos
+//        for(int x=player.getPosX();x<=boardWidth;x++)
+//        {
+//            if(myboard[x][player.getPosY()]=='#')
+//            {
+//                break;
+//            }
+//            System.out.println(x+","+player.getPosY());
+//        }
+//
+//        //go left from playerPos
+//        for(int y=player.getPosY();y>=0;y--)
+//        {
+//            if(myboard[player.getPosX()][y]=='#')
+//            {
+//                break;
+//            }
+//            System.out.println(player.getPosX()+","+y);
+//        }
+//
+//        //go right from playerPos
+//        for(int y=player.getPosY();y<=boardLength;y++)
+//        {
+//            if(myboard[player.getPosX()][y]=='#')
+//            {
+//                break;
+//            }
+//            System.out.println(player.getPosX()+","+y);
+//        }

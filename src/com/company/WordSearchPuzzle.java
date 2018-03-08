@@ -128,7 +128,7 @@ public class WordSearchPuzzle {
 
     public static void main(String[] args)
     {
-        File fileInput = new File("input.in");
+        File fileInput = new File("wordSearchInput.in");
         try(Scanner scanner = new Scanner(fileInput))
         {
             int cases = scanner.nextInt();
