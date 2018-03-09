@@ -41,24 +41,30 @@ public class Kingdom {
             }
         }
 
-        int[][] newBoard = new int[boardWidth][boardLength];
         for(Player player : players)
         {
+            char[][] newBoard = new char[boardWidth][boardLength];
             for (int i = 0; i < board.length; i++) {
                 for (int j = 0; j < board[i].length; j++) {
-                    if (board[i][j] == '#') {
-                        newBoard[i][j] = 0;
-                    } else {
-                        newBoard[i][j] = 1;
+                    if(Character.isLetter(board[i][j]))
+                    {
+                        newBoard[i][j]='.';
+                    }
+                    else
+                    {
+                        newBoard[i][j] = board[i][j];
                     }
                 }
             }
-            Set<List<Integer>> area = new HashSet<>();
-            findNumberConnected(player.getPosX(), player.getPosY(), newBoard,area);
-            System.out.println("PLAYER : "+player.getPlayerName()+" AREA : "+area);
+            findPlayerArea(player,player.getPosX(),player.getPosY(),'.',player.getPlayerName().charAt(0),newBoard);
+//            player.setArea(playerArea);
         }
 
-
+        for(Player player:players)
+        {
+            System.out.println(String.format("Player %s - Area : %s",player.getPlayerName(),player.getArea()));
+            ArrayList<List<Integer>> playerArea = player.getArea();
+        }
     }
 
     public static int findNumberConnected(int a, int b, int[][] z,Set<List<Integer>> area)
@@ -95,6 +101,78 @@ public class Kingdom {
         area.add(myArea);
         return up + left + right + down + 1;
     }
+
+    public static void findPlayerArea(Player player, int x, int y, char original, char fill, char[][] arr) {
+        int maxX = arr.length - 1;
+        int maxY = arr[0].length - 1;
+        int[][] stack = new int[(maxX + 1) * (maxY + 1)][2];
+        int index = 0;
+
+        stack[0][0] = x;
+        stack[0][1] = y;
+        arr[x][y] = fill;
+        ArrayList<List<Integer>> area = new ArrayList<>();
+        List<Integer> arreea = new ArrayList<Integer>();
+        arreea.add(x);
+        arreea.add(y);
+        area.add(arreea);
+        int count = 1;
+
+        while (index >= 0) {
+            x = stack[index][0];
+            y = stack[index][1];
+            index--;
+
+            if ((x > 0) && (arr[x - 1][y] == original)) {
+                arr[x - 1][y] = fill;
+                index++;
+                stack[index][0] = x - 1;
+                stack[index][1] = y;
+                List<Integer> arrea = new ArrayList<Integer>();
+                arrea.add(x-1);
+                arrea.add(y);
+                area.add(arrea);
+                count++;
+            }
+
+            if ((x < maxX) && (arr[x + 1][y] == original)) {
+                arr[x + 1][y] = fill;
+                index++;
+                stack[index][0] = x + 1;
+                stack[index][1] = y;
+                List<Integer> arrea = new ArrayList<Integer>();
+                arrea.add(x+1);
+                arrea.add(y);
+                area.add(arrea);
+                count++;
+            }
+
+            if ((y > 0) && (arr[x][y - 1] == original)) {
+                arr[x][y - 1] = fill;
+                index++;
+                stack[index][0] = x;
+                stack[index][1] = y - 1;
+                List<Integer> arrea = new ArrayList<Integer>();
+                arrea.add(x);
+                arrea.add(y-1);
+                area.add(arrea);
+                count++;
+            }
+
+            if ((y < maxY) && (arr[x][y + 1] == original)) {
+                arr[x][y + 1] = fill;
+                index++;
+                stack[index][0] = x;
+                stack[index][1] = y + 1;
+                List<Integer> arrea = new ArrayList<Integer>();
+                arrea.add(x);
+                arrea.add(y+1);
+                area.add(arrea);
+                count++;
+            }
+        }
+        player.setArea(area);
+    }
 }
 
 class Player
@@ -102,7 +180,7 @@ class Player
     private String playerName;
     private int posX;
     private int posY;
-
+    private ArrayList<List<Integer>> area;
     Player(String player,int posX,int posY)
     {
         this.playerName = player;
@@ -110,34 +188,19 @@ class Player
         this.posY = posY;
     }
 
+    void setArea(ArrayList<List<Integer>> playerArea)
+    {
+        this.area = playerArea;
+    }
+
+    ArrayList<List<Integer>> getArea()
+    {
+        return this.area;
+    }
+
     String getPlayerName()
     {
         return this.playerName;
-    }
-
-    void moveLeft()
-    {
-        System.out.println("GO LEFT");
-        this.posX = this.posX + 0;
-        this.posY = this.posY-1;
-    }
-    void moveRight()
-    {
-        System.out.println("GO RIGHT");
-        this.posX = this.posX + 0;
-        this.posY = this.posY+1;
-    }
-    void moveUp()
-    {
-        System.out.println("GO UP");
-        this.posX = this.posX-1;
-        this.posY = this.posY+0;
-    }
-    void moveDown()
-    {
-        System.out.println("GO DOWN");
-        this.posX = this.posX + 1;
-        this.posY = this.posY+0;
     }
 
     void setPos(int posX,int posY)
